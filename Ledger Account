@@ -1,24 +1,23 @@
-
 #Since the question asks for a four column ledger account I added the account name, the account number, the date, a description of the entry, and the posting reference.
 #After that, user choice, program has Debit, Credit, Debit Balance, and Credit Balance to calculate account data.
 #The program separates files for each account. 
 
 while True:
 
-    print('How can I assist you ?')
-    print('1. Load an Account')
-    print('2. Open a new account')
+    print('How can I assist you ?')        # First, before launvhing the program, the program should ask what you want do initially. Then, after user's choice, 
+    print('1. Load an Account')            # the programs will ask what type of account name you are going to use.
+    print('2. Open a new account') 
     print('3. Terminate Program')
     try:
 
-        n = int(input('Please Enter Choice : '))
+        n = int(input('Please Enter Choice : '))         # the program should ask for the account name and the file should be opened.
     except:
         continue
 
 
     if (n == 1):
-        print('Please Enter the Account Name : ')
-        name = input().lower()
+        print('Please Enter the Account Name : ')     #This function helps us to recognize the operation in the program. Loading an account, openning a new account
+        name = input().lower()                        #and terminating program are the operations that this function launches.
         col_names=[]
         data=[]
         line_count = 0
@@ -26,35 +25,35 @@ while True:
             with open(name+'.txt','r') as f:
                 for line in f:
                     if line_count == 0:
-                        col_names = line.split('\t')
-                    else:
-                        data.append(line.split('\t'))
-                    line_count += 1
+                        col_names = line.split('\t')  #Since the program should have both credit and debit balance operations, user needs to write which operation 
+                    else:                                   #that calculations exist in.
+                        data.append(line.split('\t'))       #In this steps do not forget to write the account names with caital letters. Otherwise the function
+                    line_count += 1                         # won't recognize what you wrote.
 
-                if 'Credit' in data[-1]:
+                if 'Credit' in data[-1]: 
                         print('Latest Credit Balance : ')
                         print(data[-1][-1])
                 else:
-                    print('Latest Debit Balance : ')
+                    print('Latest Debit Balance : ')           #This function provides us the latest balance because it should be at the last line. 
                     print(data[-1][-2])
 
             latest_credit_balance = data[-1][-1]
             latest_debit_balance = data[-1][-2]
 
-            print('What operation would you like to perform today : ')
+            print('What operation would you like to perform today : ')  #After displaying these lines ask for an operation. It should be withdrawal or deposit.
             print('1. Withdrawal')
-            print('2. Deposit')
-
+            print('2. Deposit')                             #Since we are allowed to withdraw money from accounts with debts, 
+                                                             #we need to assume that there is an infinite line of credit.
             ch = int(input('Enter the choice here : '))
             money = float(input('Enter Amount : '))
             import datetime
             arr=[]
             today = datetime.date.today()
             if ch == 1:
-                print('Withdrawal of Amount $'+str(money)+' Successful !')
-                balance = float(latest_debit_balance)-money
-                print('Current Debit Balance : '+str(balance))
-                arr = data[-1]
+                print('Withdrawal of Amount $'+str(money)+' Successful !')   #In previous lines the program should ask for the amount of money that you are going to 
+                balance = float(latest_debit_balance)-money                #invest in the account. For example it can be a large number however in the homework
+                print('Current Debit Balance : '+str(balance))             #descriptions it is forbidden to assume large amount of money so thats why we need to 
+                arr = data[-1]                                             #check the function and account for realistic amounts.
                 arr[-2] = balance
                 arr[-4] = 'Debit'
                 arr[-3] = ''
@@ -81,9 +80,9 @@ while True:
             print('Name Not Found in Database. Please Enter Accurately')
 
     if (n==2):
-        print('Please Enter the Account Name : ')
-        name = input().lower()
-        print('Account Opened Successfully !')
+        print('Please Enter the Account Name : ')                          #After correctly selecting the operations, these last 2 steps are for recording the operation. 
+        name = input().lower()                                             #If functions help users to provide selecting the operation first, then record the account
+        print('Account Opened Successfully !')                            #datas.
         print('Please use Menu to Deposit or Withdraw from Account')
         with open(name+'.txt','w+') as f:
             pass
